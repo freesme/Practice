@@ -44,8 +44,26 @@ func main() {
 	default:
 		// 做相应操作，比如丢弃data。视需求而定
 	}
+
+	s1 := test(func() int { return 100 }) // 直接将匿名函数当参数。
+
+	s2 := format(func(s string, x, y int) string {
+		return fmt.Sprintf(s, x, y)
+	}, "%d, %d", 10, 20)
+
+	println(s1, s2)
+}
+
+func test(fn func() int) int {
+	return fn()
 }
 
 func doData(data int) {
 	fmt.Println("do data ", data)
+}
+
+type FormatFunc func(s string, x, y int) string
+
+func format(fn FormatFunc, s string, x, y int) string {
+	return fn(s, x, y)
 }
